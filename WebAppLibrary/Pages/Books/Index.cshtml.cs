@@ -12,9 +12,9 @@ namespace WebAppLibrary.Pages.Books
 {
     public class IndexModel : PageModel
     {
-        private readonly WebAppLibrary.Data.WebAppLibraryContext _context;
+        private readonly WebAppLibraryContext _context;
 
-        public IndexModel(WebAppLibrary.Data.WebAppLibraryContext context)
+        public IndexModel(WebAppLibraryContext context)
         {
             _context = context;
         }
@@ -27,8 +27,25 @@ namespace WebAppLibrary.Pages.Books
            
             if (_context.Book != null)
             {
-                Book = await _context.Book.ToListAsync();
+              
+                    Book = await _context.Book.ToListAsync();
+              
+              
             }
+        }
+
+        public async Task OnPostTitleAsync(string searchText)
+        {
+            Book = await _context.Book.Where(b => b.Title.Contains(searchText)).ToListAsync();
+          
+        }
+        public async Task OnPostAuthorAsync(string searchText)
+        {
+            Book = await _context.Book.Where(b => b.Author.Contains(searchText)).ToListAsync();
+        }
+        public IActionResult OnPostFilter()
+        {
+            return RedirectToPage("/Books/Index");
         }
     }
 }

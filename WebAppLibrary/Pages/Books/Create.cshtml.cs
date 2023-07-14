@@ -12,9 +12,9 @@ namespace WebAppLibrary.Pages.Books
 {
     public class CreateModel : PageModel
     {
-        private readonly WebAppLibrary.Data.WebAppLibraryContext _context;
+        private readonly WebAppLibraryContext _context;
 
-        public CreateModel(WebAppLibrary.Data.WebAppLibraryContext context)
+        public CreateModel(WebAppLibraryContext context)
         {
             _context = context;
         }
@@ -26,7 +26,9 @@ namespace WebAppLibrary.Pages.Books
 
         [BindProperty]
         public Book Book { get; set; } = default!;
-        
+
+        static List<String> styleBook { get; } = new List<string>() {"fantazy","drama","poem" };
+        public SelectList StyleBook { get; } = new SelectList(styleBook);
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
